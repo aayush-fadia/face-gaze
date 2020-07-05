@@ -40,10 +40,10 @@ def visualize(x, y):
     cv2.waitKey(0)
 
 
-ds_train = tf.data.TFRecordDataset("TFRecordsV2/FaceGazeTrain.tfrecords")
+ds_train = tf.data.TFRecordDataset("data/TFRecordsV2/FaceGazeTrain.tfrecords")
 ds_train = ds_train.map(get_XY)
 
-ds_valid = tf.data.TFRecordDataset("TFRecordsV2/FaceGazeValid.tfrecords")
+ds_valid = tf.data.TFRecordDataset("data/TFRecordsV2/FaceGazeValid.tfrecords")
 ds_valid = ds_valid.map(get_XY)
 
 

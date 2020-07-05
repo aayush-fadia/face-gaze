@@ -3,7 +3,7 @@ import dlib
 import numpy as np
 from imutils import face_utils
 
-predictor = dlib.shape_predictor('../shape_predictor_68_face_landmarks.dat')
+predictor = dlib.shape_predictor('../trained_models/shape_predictor_68_face_landmarks.dat')
 
 detector = dlib.get_frontal_face_detector()
 clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
@@ -25,6 +25,27 @@ def draw_face_rect_dlib(frame, face_rect):
     if face_rect is not None:
         (t, l), (b, r) = face_rect
         cv2.rectangle(frame, (l, t), (r, b), (255, 0, 0))
+
+
+def crop_face_square(frame, face_rect):
+    if face_rect is not None:
+        (t, l), (b, r) = face_rect
+        height = b - t
+        FACTOR = 0.2
+        height_offset = height * FACTOR
+        t = t - height_offset
+        b = b + height_offset
+        offset = (b - t) / 2
+        mid = (l + r) / 2
+        left = mid - offset
+        right = mid + offset
+        zeros = np.zeros_like(frame)
+        zeros = zeros[:, :, 0]
+        zeros[int(t):int(b), int(left):int(right)] = 255
+        face_square = cv2.bitwise_and(frame, frame, mask=zeros)
+        print(face_square.shape)
+        return face_square
+    return None
 
 
 def shape_to_np(shape, dtype="int"):

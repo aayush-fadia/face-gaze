@@ -9,12 +9,13 @@ from v2.dataset_consume_v2 import get_dataset
 import numpy as np
 import cv2
 
-model = load_model('../trained_models/model_v2.h5')
+model = load_model('trained_models/model_v2.h5')
 model.summary()
 train, valid = get_dataset()
 valid = valid.batch(1)
 for ips, xy in valid:
     black_img = np.zeros((720, 1280, 3), dtype=np.uint8)
+    print(ips[0][0].numpy())
     cv2.imshow('eye_image', ips[0][0].numpy())
     pred_xy = model.predict(ips)[0]
     xy = xy[0].numpy()
