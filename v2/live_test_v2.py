@@ -92,11 +92,11 @@ while True:
         (t, l), (b, r) = retval
         face = crop_face_square(face, ((t, l), (b, r)))
         print(face.shape)
-        cv2.imshow('face', face)
         pred_xy = model.predict(to_input(face))[0]
         img[int(pred_xy[0] * HEIGHT) - 5:int(pred_xy[0] * HEIGHT) + 5,
         int(pred_xy[1] * WIDTH) - 5:int(pred_xy[1] * WIDTH) + 5, :] = (255, 0, 0)
         cv2.imshow('look here', img)
         cv2.namedWindow('look here', cv2.WND_PROP_FULLSCREEN)
         cv2.setWindowProperty('look here', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        cv2.imshow('face', face)
         cv2.waitKey(0)
